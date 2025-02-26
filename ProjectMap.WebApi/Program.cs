@@ -24,7 +24,7 @@ builder.Services.AddTransient<IEnvironment2DRepository, Environment2DRepository>
 
 var app = builder.Build();
 
-app.MapGet("/", () => $"The API is up . Connection string found: {(sqlConnectionStringFound ? "" : "")}");
+app.MapGet("/", () => $"The API is up . Connection string found: {(sqlConnectionStringFound ? "yes" : "no")}");
 
 // Configure the HTTP request pipeline.|
 app.MapOpenApi();
