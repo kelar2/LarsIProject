@@ -10,11 +10,13 @@ namespace LarsIProject.WebApi.Controllers;
 [Route("Object2D")]
 public class Object2DController : ControllerBase
 {
+    private readonly IAuthenticationService _authenticationService;
     private readonly IObject2DRepository _object2DRepository;
     private readonly ILogger<Object2DController> _logger;
 
-    public Object2DController(IObject2DRepository object2DRepository, ILogger<Object2DController> logger)
+    public Object2DController(IAuthenticationService authenticationService,IObject2DRepository object2DRepository, ILogger<Object2DController> logger)
     {
+        _authenticationService = authenticationService;
         _object2DRepository = object2DRepository;
         _logger = logger;
     }
