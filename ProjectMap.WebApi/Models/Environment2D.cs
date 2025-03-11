@@ -2,7 +2,7 @@
 
 public class Environment2D
 {
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     public string Name { get; set; }
 
