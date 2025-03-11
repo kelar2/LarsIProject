@@ -17,7 +17,7 @@ namespace LarsIProject.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Object2D] (Id, PrefabId, PositionX, PositionY, ScaleX, ScaleY, RotationZ, SortingLayer) VALUES (@Id, @PrefabId, @PositionX, @PositionY, ScaleX, ScaleY, RotationZ, SortingLayer)", object2D);
+                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Object2D] (Id, PrefabId, PositionX, PositionY, ScaleX, ScaleY, RotationZ, SortingLayer, EnvironmentId) VALUES (@Id, @PrefabId, @PositionX, @PositionY, @ScaleX, @ScaleY, @RotationZ, @SortingLayer, @EnvironmentId)", object2D);
                 return object2D;
             }
         }
@@ -30,11 +30,11 @@ namespace LarsIProject.WebApi.Repositories
             }
         }
 
-        public async Task<IEnumerable<Object2D>> ReadAsync()
+        public async Task<IEnumerable<Object2D>> ReadAsync(string id)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QueryAsync<Object2D>("SELECT * FROM [Object2D]");
+                return await sqlConnection.QueryAsync<Object2D>("SELECT * FROM [Object2D] WHERE EnvironmentId = @Id", new { id });
             }
         }
 
@@ -48,13 +48,14 @@ namespace LarsIProject.WebApi.Repositories
                                                  "ScaleX = @ScaleX, " +
                                                  "ScaleY = @ScaleY, " +
                                                  "RotationZ = @RotationZ, " +
-                                                 "SortingLayer = @SortingLayer"
+                                                 "SortingLayer = @SortingLayer, " +
+                                                 "EnvironmentId = @EnvironmentId"
                                                  , environment);
 
             }
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(string id)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {

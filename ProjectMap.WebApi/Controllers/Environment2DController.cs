@@ -27,9 +27,9 @@ public class Environment2DController : ControllerBase
     [Authorize]
     public async Task<ActionResult<IEnumerable<Environment2D>>> Get()
     {
-        _authenticationService.GetCurrentAuthenticatedUserId();
+        var userId = _authenticationService.GetCurrentAuthenticatedUserId();
 
-        var environment2Ds = await _environment2DRepository.ReadAsync();
+        var environment2Ds = await _environment2DRepository.ReadAsync(userId);
         return Ok(environment2Ds);
     }
 
@@ -48,7 +48,7 @@ public class Environment2DController : ControllerBase
     [Authorize]
     public async Task<ActionResult> Add(Environment2D environment2D)
     {
-        environment2D.Id = Guid.NewGuid();
+        environment2D.Id = Guid.NewGuid().ToString();
 
         var createdEnvironment2D = await _environment2DRepository.InsertAsync(environment2D);
         return Created();
@@ -77,7 +77,7 @@ public class Environment2DController : ControllerBase
         if (existingEnvironment2D == null)
             return NotFound();
 
-        await _environment2DRepository.DeleteAsync(environment2DId);
+        await _environment2DRepository.DeleteAsync(environment2DId.ToString());
 
         return Ok();
     }

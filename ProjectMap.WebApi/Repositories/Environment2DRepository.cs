@@ -17,7 +17,7 @@ namespace LarsIProject.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Environment2D] (Id, Name, MaxHeight, MaxLength) VALUES (@Id, @Name, @MaxHeight, @MaxLength)", environment2D);
+                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Environment2D] (Id, Name, MaxHeight, MaxLength, UserId) VALUES (@Id, @Name, @MaxHeight, @MaxLength, @UserId)", environment2D);
                 return environment2D;
             }
         }
@@ -30,11 +30,11 @@ namespace LarsIProject.WebApi.Repositories
             }
         }
 
-        public async Task<IEnumerable<Environment2D>> ReadAsync()
+        public async Task<IEnumerable<Environment2D>> ReadAsync(string id)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                return await sqlConnection.QueryAsync<Environment2D>("SELECT * FROM [Environment2D]");
+                return await sqlConnection.QueryAsync<Environment2D>("SELECT * FROM [Environment2D] WHERE UserId = @Id", new { id });
             }
         }
 
@@ -45,13 +45,14 @@ namespace LarsIProject.WebApi.Repositories
                 await sqlConnection.ExecuteAsync("UPDATE [Environment2D] SET " +
                                                  "Name = @Name, " +
                                                  "MaxHeight = @Maxheight, " +
-                                                 "MaxLength = @MaxLength"
+                                                 "MaxLength = @MaxLength, " +
+                                                 "UserId = @UserId"
                                                  , environment);
 
             }
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(string id)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {

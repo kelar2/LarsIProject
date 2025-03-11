@@ -2,7 +2,7 @@ namespace LarsIProject.WebApi.Models;
 
 public class Object2D
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     public string PrefabId { get; set; }
 
@@ -17,4 +17,6 @@ public class Object2D
     public float RotationZ { get; set; }
 
     public int SortingLayer { get; set; }
+
+    public string EnvironmentId { get; set; }
 }

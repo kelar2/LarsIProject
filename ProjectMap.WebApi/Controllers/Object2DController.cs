@@ -21,27 +21,27 @@ public class Object2DController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "Read2DObjects")]
-    public async Task<ActionResult<IEnumerable<Object2D>>> Get()
+    [HttpGet("{environment2DId}", Name = "Read2DObjects")]
+    public async Task<ActionResult<IEnumerable<Object2D>>> Get(string environment2DId)
     {
-        var object2Ds = await _object2DRepository.ReadAsync();
+        var object2Ds = await _object2DRepository.ReadAsync(environment2DId);
         return Ok(object2Ds);
     }
 
-    [HttpGet("{object2DId}", Name = "Read2DObject")]
-    public async Task<ActionResult<Object2D>> Get(Guid Object2DId)
-    {
-        var object2D = await _object2DRepository.ReadAsync(Object2DId);
-        if (object2D == null)
-            return NotFound();
+    //[HttpGet("{object2DId}", Name = "Read2DObject")]
+    //public async Task<ActionResult<Object2D>> Get(Guid Object2DId)
+    //{
+    //    var object2D = await _object2DRepository.ReadAsync(Object2DId);
+    //    if (object2D == null)
+    //        return NotFound();
 
-        return Ok(object2D);
-    }
+    //    return Ok(object2D);
+    //}
 
     [HttpPost(Name = "CreateObject2D")]
     public async Task<ActionResult> Add(Object2D object2D)
     {
-        object2D.Id = Guid.NewGuid();
+        object2D.Id = Guid.NewGuid().ToString();
 
         var createdObject2D = await _object2DRepository.InsertAsync(object2D);
         return Created();
@@ -61,7 +61,7 @@ public class Object2DController : ControllerBase
     }
 
     [HttpDelete("{object2DId}", Name = "DeleteObject2DByGuid")]
-    public async Task<IActionResult> Update(Guid object2DId)
+    public async Task<IActionResult> Update(string object2DId)
     {
         var existingObject2D = await _object2DRepository.ReadAsync(object2DId);
 
