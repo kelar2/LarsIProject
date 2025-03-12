@@ -2,7 +2,7 @@ namespace LarsIProject.WebApi.Models;
 
 public class Object2D
 {
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     public string PrefabId { get; set; }
 
