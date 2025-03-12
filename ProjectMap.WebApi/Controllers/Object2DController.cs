@@ -44,7 +44,7 @@ public class Object2DController : ControllerBase
         object2D.Id = Guid.NewGuid().ToString();
 
         var createdObject2D = await _object2DRepository.InsertAsync(object2D);
-        return Created();
+        return Ok(createdObject2D);
     }
 
     [HttpPut("{object2DId}", Name = "UpdateObject2D")]
