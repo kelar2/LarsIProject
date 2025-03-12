@@ -38,7 +38,7 @@ public class Object2DController : ControllerBase
     //    return Ok(object2D);
     //}
 
-    [HttpPost(Name = "CreateObject2D")]
+    [HttpPost("{environment2DId}", Name = "CreateObject2D")]
     public async Task<ActionResult> Add(Object2D object2D)
     {
         object2D.Id = Guid.NewGuid().ToString();
