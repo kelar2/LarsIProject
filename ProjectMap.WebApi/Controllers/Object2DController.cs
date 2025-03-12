@@ -60,7 +60,7 @@ public class Object2DController : ControllerBase
         return Ok(newObject2D);
     }
 
-    [HttpDelete("{object2DId}", Name = "DeleteObject2DByGuid")]
+    [HttpDelete("{environment2DId}", Name = "DeleteObject2DByenvironmentId")]
     public async Task<IActionResult> Update(string object2DId)
     {
         var existingObject2D = await _object2DRepository.ReadAsync(object2DId);
