@@ -38,7 +38,7 @@ namespace LarsIProject.WebApi.Repositories
             }
         }
 
-        public async Task UpdateAsync(Object2D environment)
+        public async Task UpdateAsync(Object2D object2D)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
@@ -50,7 +50,7 @@ namespace LarsIProject.WebApi.Repositories
                                                  "RotationZ = @RotationZ, " +
                                                  "SortingLayer = @SortingLayer, " +
                                                  "EnvironmentId = @EnvironmentId"
-                                                 , environment);
+                                                 , object2D);
 
             }
         }

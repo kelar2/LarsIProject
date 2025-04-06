@@ -48,8 +48,29 @@ public class Environment2DController : ControllerBase
     [Authorize]
     public async Task<ActionResult> Add(Environment2D environment2D)
     {
+        int maxNameLength = 25;
+        int minNameLength = 1;
+        int maxWorlds = 5;
+
+
         environment2D.Id = Guid.NewGuid().ToString();
         environment2D.UserId = _authenticationService.GetCurrentAuthenticatedUserId();
+
+        var environment2Ds = await _environment2DRepository.ReadAsync(environment2D.UserId);
+
+
+        if (environment2D.Name.Length < minNameLength || environment2D.Name.Length > maxNameLength)
+        {
+            return BadRequest("Name must be between " + minNameLength + " and " + maxNameLength + " characters");
+        }
+        if(environment2Ds.Count() >= maxWorlds)
+        {
+            return BadRequest("Max amount of " + maxWorlds + " reached. Delete a world to create a new one");
+        }
+        if(environment2Ds.Any(e => e.Name == environment2D.Name))
+        {
+            return BadRequest("Name already exists");
+        }
 
         var createdEnvironment2D = await _environment2DRepository.InsertAsync(environment2D);
         return Created();
